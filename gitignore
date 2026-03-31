@@ -1,0 +1,12 @@
+/version
+/app/frontend/node_modules
+/app/frontend/dist
+
+.idea
+.vscode
+
+.DS_Store
+desktop.ini
+
+.direnv
+/.envrc

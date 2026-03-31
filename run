@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# This file must be made executable by running chmod +x ./run
+
+# Set owner ID and its group
+# This is used for running docker commands as the correct user
+: ${DOCKER_OWNER:=$([ "${SUDO_UID}" != "" ] && echo ${SUDO_UID} || id -u)}
+: ${DOCKER_GROUP:=$([ "${SUDO_GID}" != "" ] && echo ${SUDO_GID} || id -g)}
+export DOCKER_OWNER
+export DOCKER_GROUP
+
+# Set HOME directory of the owner
+# This is used for mounting home dir with npm/composer cache and ssh settings into containers
+: ${DOCKER_HOME:=$([ "${SUDO_USER}" != "" ] && eval echo ~${SUDO_USER} || echo $HOME)}
+export DOCKER_HOME
+
+export OSTYPE
+
+DEPLOY=false
+export DEPLOY
+
+compose() {
+	docker compose "$@"
+}
+
+logs() {
+	compose logs --follow --timestamps --tail=50 "$@"
+}
+
+install() {
+	compose run --rm --no-deps frontend npm install && \
+	echo -e "\nALL OK"
+}
+
+generate() {
+	compose up generate
+}
+
+fix() {
+	compose run --rm --no-deps frontend npm run fix && \
+	echo -e "\nALL OK"
+}
+
+test() {
+	compose run --rm --no-deps frontend npm run test && \
+	echo -e "\nALL OK"
+}
+
+build() {
+	compose run --rm --no-deps frontend npm run build && \
+	echo -e "\nALL OK"
+}
+
+dev() {
+  compose up frontend
+}
+
+preview() {
+  compose up preview
+}
+
+"$@"
+
+exit $?

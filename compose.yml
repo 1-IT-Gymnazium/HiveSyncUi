@@ -1,0 +1,43 @@
+services:
+  frontend:
+    image: node:24-slim
+    env_file:
+      - .env/frontend.env
+    environment:
+      OSTYPE: $OSTYPE
+    user: ${DOCKER_OWNER}:${DOCKER_GROUP}
+    volumes:
+      - ./app/frontend:/app
+      - ${DOCKER_HOME}:/home/node
+    ports:
+      - 3000:3000
+    working_dir: /app
+    command: npm run dev
+  preview:
+    profiles: [ "preview" ]
+    image: node:24-slim
+    environment:
+      OSTYPE: $OSTYPE
+    user: ${DOCKER_OWNER}:${DOCKER_GROUP}
+    volumes:
+      - ./app/frontend:/app
+      - ${DOCKER_HOME}:/home/node
+    ports:
+      - 5000:5000
+    working_dir: /app
+    command: npm run preview
+  generate:
+    profiles: [ "generate" ]
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    env_file:
+      - .env/frontend.env
+    environment:
+      OSTYPE: $OSTYPE
+    user: ${DOCKER_OWNER}:${DOCKER_GROUP}
+    volumes:
+      - ./app/frontend:/app
+      - ${DOCKER_HOME}:/home/node
+    working_dir: /app
+    command: npm run generate

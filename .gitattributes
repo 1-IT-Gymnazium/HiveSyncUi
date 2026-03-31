@@ -1,0 +1,15 @@
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/compose.yml export-ignore
+
+* text=lf
+
+*.scss text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+
+*.png binary
+*.jpg binary
