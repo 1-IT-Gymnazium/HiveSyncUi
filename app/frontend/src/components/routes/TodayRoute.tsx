@@ -64,8 +64,8 @@ const TodayRoute = () => {
         return entry.dueAt && dayjs(entry.dueAt).diff(dayjs()) < 0 && entry.state !== TaskState.Done;
       case ViewVariant.TODAY:
       default:
-        return (!entry.dueAt || dayjs(entry.dueAt).startOf("day")
-          .isSame(dayjs().startOf("day")));
+        return ((!entry.dueAt && entry.state !== "Done") || (entry.dueAt && dayjs(entry.dueAt).startOf("day")
+          .isSame(dayjs().startOf("day"))));
     }
   }), [data, variant]);
 
@@ -81,6 +81,7 @@ const TodayRoute = () => {
           </ToggleButton>
         </RoundedToggleButtonGroup>
       )}
+      padBottom
       subtitle={!loading ? `${(filteredData?.length ?? 0).toString()} task${filteredData?.length !== 1 ? "s" : ""}` : "Loading"}
       title={variant === ViewVariant.OVERDUE ? "Overdue" : "Today"}
     >

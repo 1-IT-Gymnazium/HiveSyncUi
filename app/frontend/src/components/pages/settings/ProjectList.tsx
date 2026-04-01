@@ -39,7 +39,7 @@ const ProjectList = () => {
             id={entry.id}
             key={entry.id}
             label={entry.name}
-            onDelete={deleteProject}
+            onDelete={!entry.isDefault ? deleteProject : undefined}
             onEdit={async () => {
               await navigate(paths.project.generate({ id: entry.id }));
             }}

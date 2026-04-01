@@ -88,7 +88,7 @@ const TaskList = ({
     return (
       <Stack height="100%" justifyContent="center">
         <Typography textAlign="center">
-          No tasks found.
+          No tasks found
         </Typography>
       </Stack>
     );

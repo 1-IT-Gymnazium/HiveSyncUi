@@ -12,6 +12,8 @@ import useUserStore from "../../stores/useUserStore";
 import Navigation from "./Navigation";
 import AddTaskFab from "./AddTaskFab";
 
+const touchSx = { WebkitOverflowScrolling: "touch" };
+
 const StyledContainer = styled(Container)({
   height: "100%",
 });
@@ -19,7 +21,7 @@ const StyledContainer = styled(Container)({
 const StyledBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
-  minHeight: "100dvh",
+  height: "100dvh",
   overflow: "hidden",
   width: "100%",
 });
@@ -34,12 +36,10 @@ const Layout: React.FC = () => {
   return userDetail
     ? (
       <StyledBox>
-        <Grid flexShrink={1} minHeight="0" position="relative" size="grow">
-          <Box height="100%" maxHeight="100%" overflow="auto">
+        <Grid flexShrink="1" minHeight="0" overflow="hidden" position="relative" size="grow">
+          <Box height="100%" overflow="auto" sx={touchSx}>
             <StyledContainer fixed maxWidth="lg">
-              <Box height="100%">
-                <Outlet />
-              </Box>
+              <Outlet />
             </StyledContainer>
           </Box>
           <AddTaskFab />

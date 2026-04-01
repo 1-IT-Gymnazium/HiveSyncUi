@@ -27,8 +27,18 @@ const useUser = () => {
     setUserLoading,
   ]);
 
+  const refreshSession = useCallback(async () => {
+    try {
+      await authApi.apiAuthRefreshPost();
+    }
+    catch {
+      // noop
+    }
+  }, [authApi]);
+
   return {
     getUserDetail,
+    refreshSession,
     userDetail,
     userLoading,
   };

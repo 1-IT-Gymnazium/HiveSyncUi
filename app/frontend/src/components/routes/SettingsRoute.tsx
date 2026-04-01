@@ -10,6 +10,8 @@ import Settings from "../pages/settings/Settings";
 import useUserStore from "../../stores/useUserStore";
 import useLogout from "../layout/hooks/useLogout";
 
+const touchSx = { WebkitOverflowScrolling: "touch" };
+
 const SettingsRoute = () => {
   const { setSectionName } = useDocumentMeta();
   const userDetail = useUserStore((state) => state.userDetail);
@@ -39,11 +41,11 @@ const SettingsRoute = () => {
   }, [logout]);
 
   return (
-    <Grid container direction="column" height="100%">
-      <Grid flexShrink={0} minHeight={0} overflow="auto" size="grow">
+    <Grid container direction="column" height="100%" minHeight="0">
+      <Grid minHeight="0" overflow="auto" size="grow" sx={touchSx}>
         <Settings />
       </Grid>
-      <Grid size="auto">
+      <Grid mx={-2} size="auto">
         <Card>
           <CardHeader
             action={(

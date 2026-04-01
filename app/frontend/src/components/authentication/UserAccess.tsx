@@ -1,6 +1,7 @@
 import {
   useEffect,
   useLayoutEffect,
+  useRef,
 } from "react";
 import {
   Outlet, useLocation, useNavigate,
@@ -22,7 +23,7 @@ function shouldReturnTo(path: string, searchQuery: string) {
 const UserAccess = () => {
   const navigate = useNavigate();
   const {
-    userLoading, userDetail,
+    userLoading, userDetail, refreshSession,
   } = useUser();
 
   const {
@@ -32,6 +33,8 @@ const UserAccess = () => {
   const {
     pathname, search: searchQuery,
   } = useLocation();
+
+  const intervalRef = useRef<number | null>(null);
 
   useLayoutEffect(() => {
     if (!userDetail) {
@@ -65,6 +68,34 @@ const UserAccess = () => {
       removeMiddleware(USER_UNAUTHENTICATED_MIDDLEWARE);
     };
   }, [addMiddleware, removeMiddleware]);
+
+  useEffect(() => {
+    const clearRefreshInterval = () => {
+      if (intervalRef.current) {
+        window.clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+    const setRefreshInterval = () => {
+      clearRefreshInterval();
+      void refreshSession();
+      intervalRef.current = window.setInterval(refreshSession, 600000);
+    };
+
+    setRefreshInterval();
+    window.addEventListener("focus", setRefreshInterval);
+    window.addEventListener("blur", clearRefreshInterval);
+
+    return () => {
+      clearRefreshInterval();
+      window.removeEventListener("focus", setRefreshInterval);
+      window.removeEventListener("blur", clearRefreshInterval);
+    };
+  }, [
+    addMiddleware,
+    refreshSession,
+    removeMiddleware,
+  ]);
 
   return userDetail && <Outlet />;
 };

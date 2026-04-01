@@ -18,11 +18,7 @@ const Alerts: React.FC = () => {
       open
     >
       <Box>
-        <Stack sx={{
-          flexDirection: "column",
-          width: "100%",
-        }}
-        >
+        <Stack flexDirection="column" width="100%">
           {alerts.map((alert) => (
             <Alert
               action={(

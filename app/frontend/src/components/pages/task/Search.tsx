@@ -127,6 +127,7 @@ const Search = () => {
       buttons={
         <SearchFilter />
       }
+      padBottom
     >
       {loading && <LinearProgress />}
       {filteredData && <TaskList data={filteredData} refresh={getTasks} />}

@@ -77,6 +77,7 @@ const ScheduledRoute = () => {
           </ToggleButton>
         </RoundedToggleButtonGroup>
       )}
+      padBottom
       subtitle={!loading ? `${(filteredData?.length ?? 0).toString()} task${filteredData?.length !== 1 ? "s" : ""}` : "Loading"}
       title={variant === ViewVariant.DONE ? "Done" : "Scheduled"}
     >

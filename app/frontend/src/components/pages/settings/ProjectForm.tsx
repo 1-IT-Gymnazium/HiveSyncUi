@@ -30,7 +30,7 @@ interface ProjectFormProps {
 const ProjectForm: React.FC<ProjectFormProps> = ({
   buttons, data, onValidChange, onSubmit,
 }: ProjectFormProps) => {
-  const [color, setColor] = useState(data?.color ?? theme.palette.primary.main);
+  const [color, setColor] = useState(data?.color === "DEFAULT" ? theme.palette.info.main : data?.color ?? theme.palette.primary.main);
   const [name, setName] = useState(data?.name ?? "");
 
   const handleSubmit = useCallback(async () => {
