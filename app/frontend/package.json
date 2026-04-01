@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build --mode production",
+    "build": "vite build --mode production",
     "fix": "eslint --fix .",
     "generate": "openapi-generator-cli generate -i ./api-definition.json -g typescript-fetch -o ./src/context/api --additional-properties=supportsES6=true,useSingleRequestParameter=true,useUnionTypes=true",
     "preview": "vite preview",
